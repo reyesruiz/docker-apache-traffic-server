@@ -14,7 +14,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
 RUN yum clean all && yum update -y
-RUN yum install -y epel-release vim wget
+RUN yum install -y epel-release vim wget telnet
 RUN yum clean all && yum update -y
 RUN yum install trafficserver -y
 
