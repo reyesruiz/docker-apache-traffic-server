@@ -3,21 +3,27 @@ FROM centos:7
 MAINTAINER Reyes Ruiz <reyes_ruiz@digitalruiz.com>
 
 ENV container docker
-RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \ 
-rm -f /lib/systemd/system/multi-user.target.wants/*;\
-rm -f /etc/systemd/system/*.wants/*;\
-rm -f /lib/systemd/system/local-fs.target.wants/*; \
-rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
-rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
-rm -f /lib/systemd/system/basic.target.wants/*;\
-rm -f /lib/systemd/system/anaconda.target.wants/*;
-VOLUME [ "/sys/fs/cgroup" ]
-CMD ["/usr/sbin/init"]
-RUN yum clean all && yum update -y
-RUN yum install -y epel-release vim wget telnet
-RUN yum clean all && yum update -y
-RUN yum install trafficserver -y
 
-RUN systemctl enable trafficserver
+WORKDIR /tmp
+RUN yum clean all && yum update -y
+RUN yum install vim wget telnet bind-utils net-tools lsof pkgconfig libtool gcc gcc-c++ make \
+	openssl openssl-devel tcl tcl-devel pcre pcre-devel libcap libcap-devel \
+	flex hwloc hwloc-devel lua ncurses ncurses-devel curl libcurl-devel autoconf automake \
+	libunwind libunwind-devel bzip2 expat-devel -y
+RUN yum clean all && yum update -y
+RUN wget http://www-us.apache.org/dist/trafficserver/trafficserver-7.0.0.tar.bz2
+RUN tar -xvf trafficserver-7.0.0.tar.bz2
+
+WORKDIR /tmp/trafficserver-7.0.0
+RUN autoreconf -if
+RUN ./configure --prefix=/opt/ts
+RUN make
+RUN make check
+RUN make install
+
+WORKDIR /tmp
+RUN rm -rf trafficserver-7.0.0*
 
 EXPOSE 8080
+
+ENTRYPOINT ["/opt/ts/bin/traffic_cop"]
