@@ -11,10 +11,10 @@ RUN yum install vim wget telnet bind-utils net-tools lsof pkgconfig libtool gcc 
 	flex hwloc hwloc-devel lua ncurses ncurses-devel curl libcurl-devel autoconf automake \
 	libunwind libunwind-devel bzip2 expat-devel -y
 RUN yum clean all && yum update -y
-RUN wget http://www-us.apache.org/dist/trafficserver/trafficserver-7.0.0.tar.bz2
-RUN tar -xvf trafficserver-7.0.0.tar.bz2
+RUN wget http://www-us.apache.org/dist/trafficserver/trafficserver-4.2.3.tar.bz2
+RUN tar -xvf trafficserver-4.2.3.tar.bz2
 
-WORKDIR /tmp/trafficserver-7.0.0
+WORKDIR /tmp/trafficserver-4.2.3
 RUN autoreconf -if
 RUN ./configure --prefix=/opt/ts
 RUN make
@@ -22,8 +22,8 @@ RUN make check
 RUN make install
 
 WORKDIR /tmp
-RUN rm -rf trafficserver-7.0.0*
+RUN rm -rf trafficserver-4.2.3*
 
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/ts/bin/traffic_cop"]
+ENTRYPOINT ["/opt/ts/bin/traffic_server"]
