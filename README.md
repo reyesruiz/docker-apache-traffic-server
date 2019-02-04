@@ -6,16 +6,17 @@ Apache Traffic Server for Docker
 
 #### Build
  - Centos: 7
- - Apache Traffic Server: Latest Release  4.2.3, 5.3.2, 6.2.3, 7.0.0, 7.1.6
+ - Apache Traffic Server: Latest Release  4.2.3, 5.3.2, 6.2.3, 7.0.0, 7.1.6, 8.0.2
 
 
 ### Tags
- - latest	(7.1.6)
+ - latest	(8.0.2)
  - 4.2.x	(4.2.3)
  - 5.3.x	(5.3.2)
  - 6.2.x	(6.2.3)
  - 7.0.x	(7.0.0)
- - 7.1.x        (7.1.6)
+ - 7.1.x	(7.1.6)
+ - 8.0.x	(8.0.2)
 
 ### Usage
 
